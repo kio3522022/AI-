@@ -1,0 +1,36 @@
+from tensorflow import keras
+# 從 TensorFlow 匯入 Keras 深度學習套件
+from keras.models import Sequential
+# 匯入 Sequential 模型，用來依照順序建立神經網路
+from keras.layers import Dense
+# 匯入 Dense 全連接層，用來建立神經網路的神經元
+
+import numpy as np
+# 匯入 NumPy 套件，用來產生及處理數值資料
+data = np.random.random((1000, 10)) #隨機產生1000筆資料，每筆資料包含十個float數字
+labels = np.random.randint(2, size=(1000, 1)) #隨機產生1000筆資料，每筆資料上限為2(意思就是0 或 1)
+print(np.shape(data))
+# 印出資料的形狀
+print(data[0])
+# 印出第一筆訓練資料
+print(np.shape(labels))
+# 印出標籤資料的形狀
+print(labels[0])
+# 印出第一筆資料所對應的標籤
+
+model = Sequential()
+# 建立 Sequential 順序式神經網路模型
+model.add(Dense(32, activation='relu', input_dim=10))
+# 加入第一層全連接層（Dense）
+model.add(Dense(1, activation='sigmoid'))
+# 加入第二層全連接層（輸出層）
+model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
+# 設定模型訓練的相關參數
+
+model.fit(data, labels, epochs=10, batch_size=32)
+score=model.evaluate(data, labels)
+# 使用訓練資料 data 及標籤 labels 進行模型訓練
+
+
+print(score[1])
+# 印出模型的準確率
